@@ -23,7 +23,7 @@ module HerokuDeflater
     end
 
     def call(env)
-      @app.call(env) if HerokuDeflater.rails_version_6_1? || env['REQUEST_METHOD'] != 'GET'
+      return @app.call(env) if HerokuDeflater.rails_version_6_1? || env['REQUEST_METHOD'] != 'GET'
 
       request = Rack::Request.new(env)
       encoding = Rack::Utils.select_best_encoding(%w(gzip identity), request.accept_encoding)
